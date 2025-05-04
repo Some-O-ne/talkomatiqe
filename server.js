@@ -32,7 +32,7 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 const CONFIG = {
   LIMITS: {
     MAX_USERNAME_LENGTH: 12,
-    MAX_AFK_TIME:200000,
+    MAX_AFK_TIME:10000,
     MAX_LOCATION_LENGTH: 12,
     MAX_ROOM_NAME_LENGTH: 20,
     MAX_MESSAGE_LENGTH: 10000,
@@ -1024,6 +1024,11 @@ app.get(`/api/${CONFIG.VERSIONS.API}/protected/ping`, limiter, apiAuth, (req, re
  * SOCKET.IO EVENT HANDLERS
  *********************************/
 function onAFKTimeExceeded(socket) {
+  const userId = socket.handshake.session.userId;
+  if (userId) {
+    leaveRoom(socket, userId);
+  }
+  
   console.log("Disconnected "+socket.id+" for inactivity")
   socket.emit("error",createErrorResponse(ERROR_CODES.ACCESS_DENIED,"Disconnected due to inactivity",null))
   socket.disconnect();
