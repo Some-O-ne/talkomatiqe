@@ -32,7 +32,7 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 const CONFIG = {
   LIMITS: {
     MAX_USERNAME_LENGTH: 12,
-    MAX_AFK_TIME:10000,
+    MAX_AFK_TIME:200000,
     MAX_LOCATION_LENGTH: 12,
     MAX_ROOM_NAME_LENGTH: 20,
     MAX_MESSAGE_LENGTH: 10000,
